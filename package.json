@@ -1,0 +1,19 @@
+{
+  "name": "ultron_desktop_pet",
+  "version": "1.0.0",
+  "description": "An Ultron desktop pet you can talk to",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "Ayla",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^44.7.0"
+  },
+  "allowScripts": {
+    "electron": true
+  }
+}

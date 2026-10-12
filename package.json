@@ -4,7 +4,7 @@
   "description": "An Ultron desktop pet you can talk to",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron . --ozone-platform=x11"
   },
   "keywords": [],
   "author": "Ayla",

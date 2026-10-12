@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html land="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Ultron</title>
@@ -17,9 +17,65 @@
       border-radius: 20px;
       -webkit-app-region: drag;
       }
+
+      #bubble {
+        position: relative;
+        margin: 10px;
+        padding: 10px 14px;
+        min-height: 60px;
+        max-height: 110px;
+        overflow-y: auto;
+        background: white;
+        color: black;
+        border-radius: 14px;
+        font-family: sans-serif;
+        font-size: 14px;
+      }
+
+      /* the little tail pointing down at Ultron */
+      #bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        border: 10px solid transparent;
+        border-top-color: white;
+        border-bottom: 0;
+      }
+      
+      #talk {
+        display: block;
+        margin: 10px auto;
+        cursor: pointer;
+      }
+
+      #ask {
+        display: flex;
+        gap: 6px;
+        margin: 0 10px;
+      }
+
+      #question {
+        flex: 1;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
       </style>
     </head>
     <body>
+      <div id="bubble" hidden></div>
+
       <div id="ultron"></div>
+
+      <button id="talk">💬</button>
+
+      <form id="ask" hidden>
+        <input id="question" type="text" placeholder="Ask Ultron..." autocomplete="off">
+        <button type="submit">Ask</button>
+      </form>
+
+      <script src="renderer.js"></script>
     </body>
   </html>

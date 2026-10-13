@@ -10,11 +10,11 @@
       overflow: hidden;
     }
     #ultron {
+      display: block;
       width: 150px;
       height: 150px;
-      margin: 100px auto 0;
-      background: #888;
-      border-radius: 20px;
+      margin: 20px auto 0;
+      image-rendering: pixelated;
       -webkit-app-region: drag;
       }
 
@@ -67,7 +67,7 @@
     <body>
       <div id="bubble" hidden></div>
 
-      <div id="ultron"></div>
+      <img id="ultron" src="assets/idle.png" alt="Ultron" draggable="false">
 
       <button id="talk">💬</button>
 

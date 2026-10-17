@@ -31,10 +31,48 @@ function setSprite(name) {
     ultron.src = 'assets/' + name + '.png';
 }
 
+let typingTimer = null;
+let finishTyping = null;
 function say(text) {
+    clearInterval(typingTimer);
+    finishTyping = null;
     bubbleText.textContent = text;
     bubble.hidden = false;
 }
+
+function speak(text, onDone) {
+    clearInterval(typingTimer);
+    bubbleText.textContent = '';
+    bubble.hidden = false;
+
+    let shown = 0;
+    finishTyping = () => {
+        shown = text.length - 1;
+    };
+
+    typingTimer = setInterval(() => {
+        shown++;
+        bubbleText.textContent = text.slice(0, shown);
+        bubbleText.scrollTop = bubbleText.scrollHeight;
+
+        if (Math.floor(shown / 3) % 2 == 0) {
+            setSprite('talking');
+        } else {
+            setSprite('idle');
+        }
+
+        if (shown >= text.length) {
+            clearInterval(typingTimer);
+            finishTyping = null;
+            setSprite('idle');
+            if (onDone) onDone();
+        }
+    }, 30);
+}
+
+bubble.addEventListener('click', () => {
+    if (finishTyping) finishTyping();
+});
 
 talkButton.addEventListener('click', () => {
     settingsForm.hidden = true;
@@ -59,17 +97,16 @@ askForm.addEventListener('submit', async(event) => {
 
     const result = await window.ultronBrain.ask(question);
 
-    setSprite('talking');
-    say(result.answer ?? result.error);
-    setTimeout(() => {
-        setSprite('idle');
-        busy = false;
-        updateFlying();
-    }, 3000);
+    speak(result.answer ?? result.error, () => {
+        setTimeout(() => {
+            busy = false;
+            updateFlying();
+        }, 1500);
+    })
 });
 
 function blink() {
-    if (ultron.src.endsWith('idle.png')) {
+    if (ultron.src.endsWith('idle.png') && !busy) {
         setSprite('blinking');
         setTimeout(() => setSprite('idle'), 150);
     }

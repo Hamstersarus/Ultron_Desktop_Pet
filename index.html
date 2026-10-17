@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <title>Ultron</title>
     <style>
+    @font-face {
+      font-family: 'VT323';
+      src: url('assets/fonts/VT323-Regular.ttf');
+    }
+    :root {
+      --steel-dark: #16181d;
+      --steel: #2a2f38;
+      --steel-light: #8a919c;
+      --ultron-red: #ff2a2a;
+      --ultron-red-dim: #7a0f0f;
+      --text: #e6e6e6;
+    }
     html, body {
       margin: 0;
       background: transparent;
       overflow: hidden;
+      font-family: 'VT323', monospace;
+      button, input {
+        font: inherit;
+      }
     }
     #ultron {
       display: block;
@@ -28,8 +44,7 @@
         background: white;
         color: black;
         border-radius: 14px;
-        font-family: sans-serif;
-        font-size: 14px;
+        font-size: 20px;
       }
 
       /* the little tail pointing down at Ultron */

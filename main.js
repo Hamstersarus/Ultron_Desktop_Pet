@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, safeStorage, screen, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -130,6 +130,7 @@ ipcMain.handle('ask', async(event, question) => {
 
 let win;
 let flyingAllowed = true;
+let userWantsFlying = true;
 let target = null;
 let restUntil = 0;
 let lastPosition = null;
@@ -157,7 +158,7 @@ function fly() {
   }
   lastPosition = {x, y};
 
-  if (!flyingAllowed || Date.now() < restUntil) return;
+  if (!flyingAllowed || !userWantsFlying || Date.now() < restUntil) return;
   if (!target) target = pickTarget();
 
   const dx = target.x - x;
@@ -178,6 +179,25 @@ function fly() {
 ipcMain.on('set-flying', (event, allowed) => {
   flyingAllowed = allowed;
 });
+
+function showPetMenu() {
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Fly around',
+      type: 'checkbox',
+      checked: userWantsFlying,
+      click: (item) => {
+        userWantsFlying = item.checked;
+      },
+    },
+    {type: 'separator'},
+    {
+      label: 'Quit Ultron',
+      click: () => app.quit(),
+    },
+  ]);
+  menu.popup({window: win});
+}
 
 function createWindow() {
   win = new BrowserWindow({
@@ -203,6 +223,7 @@ function createWindow() {
     clearInterval(flyTimer);
     win = null;
   });
+  win.webContents.on('context-menu', showPetMenu);
 }
 
 app.whenReady().then(createWindow);

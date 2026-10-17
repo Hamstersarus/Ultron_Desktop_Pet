@@ -21,9 +21,10 @@
       background: transparent;
       overflow: hidden;
       font-family: 'VT323', monospace;
-      button, input {
-        font: inherit;
-      }
+    }
+
+    button, input {
+      font: inherit;
     }
     #ultron {
       display: block;
@@ -32,30 +33,66 @@
       margin: 20px auto 0;
       image-rendering: pixelated;
       -webkit-app-region: drag;
+      filter: drop-shadow(0 0 4px rgba(255, 42, 42, 0.5));
+      animation: hover-bob 2.4s ease-in-out infinite;
       }
 
       #bubble {
         position: relative;
-        margin: 10px;
-        padding: 10px 14px;
-        min-height: 60px;
-        max-height: 110px;
-        overflow-y: auto;
-        background: white;
-        color: black;
-        border-radius: 14px;
+        margin: 10px 10px 18px;
+        padding: 8px 12px;
+        background: var(--steel-dark);
+        color: var(--text);
+        border: 2px solid var(--ultron-red);
+        border-radius: 4px;
+        box-shadow: 0 0 10px var(--ultron-red-dim);
         font-size: 20px;
+        line-height: 1.1;
+        transform-origin: bottom center;
+        animation: pop-in 0.15s ease-out;
       }
 
-      /* the little tail pointing down at Ultron */
+      #bubble-text {
+        max-height: 100px;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+
+      /* the tail: a red triangle with a smaller dark triangle on top */
+      #bubble::before,
       #bubble::after {
         content: "";
         position: absolute;
-        bottom: -10px;
         left: 50%;
-        border: 10px solid transparent;
-        border-top-color: white;
-        border-bottom: 0;
+        transform: translateX(-50%);
+        border-style: solid;
+        border-color: transparent;
+      }
+
+      #bubble::before {
+        bottom: -12px;
+        border-width: 12px 10px 0;
+        border-top-color: var(--ultron-red);
+      }
+
+      #bubble::after {
+        bottom: -8px;
+        border-width: 9px 7.5px 0;
+        border-top-color: var(--steel-dark);
+      }
+
+      /* thin red scrollbar for long answers */
+      #bubble-text::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      #bubble-text::-webkit-scrollbar-thumb {
+        background: var(--ultron-red-dim);
+        border-radius: 3px;
+      }
+
+      #bubble-text::-webkit-scrollbar-track {
+        background: transparent;
       }
       
       #buttons {
@@ -65,8 +102,45 @@
         margin: 10px auto;
       }
 
-      #buttons button{
+      button {
+        background: var(--steel);
+        color: var(--text);
+        border: 2px solid var(--steel-light);
+        border-radius: 2px;
+        padding: 2px 10px;
+        font-size: 18px;
         cursor: pointer;
+        box-shadow: inset -2px -2px 0 var(--steel-dark);
+      }
+
+      button:hover {
+        border-color: var(--ultron-red);
+        box-shadow: inset -2px -2px 0 var(--steel-dark), 0 0 6px var(--ultron-red-dim);
+      }
+
+      button:active {
+        transform: translateY(1px);
+        box-shadow: inset 2px 2px 0 var(--steel-dark);
+      }
+
+      input {
+        background: var(--steel-dark);
+        color: var(--text);
+        border: 2px solid var(--steel-light);
+        border-radius: 2px;
+        padding: 2px 6px;
+        font-size: 18px;
+        outline: none;
+        caret-color: var(--ultron-red);
+      }
+
+      input:focus {
+        border-color: var(--ultron-red);
+        box-shadow: 0 0 6px var(--ultron-red-dim);
+      }
+
+      input::placeholder {
+        color: var(--steel-light);
       }
 
       #ask, #settings {
@@ -82,14 +156,36 @@
       [hidden] {
         display: none !important;
       }
+
+      @keyframes pop-in {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes hover-bob {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
       </style>
     </head>
     <body>
-      <div id="bubble" hidden></div>
+      <div id="bubble" hidden>
+        <div id="bubble-text"></div>
+      </div>
 
       <img id="ultron" src="assets/idle.png" alt="Ultron" draggable="false">
       
-      <div id = "buttons">
+      <div id="buttons">
         <button id="talk">💬</button>
         <button id="settings-button">⚙️</button>
     </div>

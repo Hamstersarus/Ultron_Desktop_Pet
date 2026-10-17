@@ -7,6 +7,8 @@ const settingsButton = document.getElementById('settings-button');
 const settingsForm = document.getElementById('settings');
 const keyInput = document.getElementById('key-input');
 const buttonsRow = document.getElementById('buttons');
+const bubbleText = document.getElementById('bubble-text');
+
 
 let busy = false;
 let hoveringButtons = false;
@@ -30,7 +32,7 @@ function setSprite(name) {
 }
 
 function say(text) {
-    bubble.textContent = text;
+    bubbleText.textContent = text;
     bubble.hidden = false;
 }
 

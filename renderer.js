@@ -20,7 +20,7 @@ talkButton.addEventListener('click', () => {
     }
 });
 
-askForm.addEventListener('submit', (event) => {
+askForm.addEventListener('submit', async(event) => {
     event.preventDefault();
 
     const question = questionInput.value.trim();
@@ -30,11 +30,11 @@ askForm.addEventListener('submit', (event) => {
     setSprite('thinking');
     say('...');
 
-    setTimeout(() => {
-        setSprite('talking');
-        say('You asked: "' + question + '". I will answer once I am connected to my mind.');
-        setTimeout(() => setSprite('idle'), 2000);
-    }, 1000);
+    const result = await window.ultronBrain.ask(question);
+
+    setSprite('talking');
+    say(result.answer ?? result.error);
+    setTimeout(() => setSprite('idle'), 3000);
 });
 
 function blink() {

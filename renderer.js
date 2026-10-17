@@ -6,6 +6,24 @@ const ultron = document.getElementById('ultron');
 const settingsButton = document.getElementById('settings-button');
 const settingsForm = document.getElementById('settings');
 const keyInput = document.getElementById('key-input');
+const buttonsRow = document.getElementById('buttons');
+
+let busy = false;
+let hoveringButtons = false;
+
+function updateFlying() {
+    const calm = !busy && ! hoveringButtons && askForm.hidden && settingsForm.hidden;
+    window.ultronBrain.setFlying(calm);
+}
+
+buttonsRow.addEventListener('mouseenter', () => {
+    hoveringButtons = true;
+    updateFlying();
+});
+buttonsRow.addEventListener('mouseleave', () => {
+    hoveringButtons = false;
+    updateFlying();
+});
 
 function setSprite(name) {
     ultron.src = 'assets/' + name + '.png';
@@ -22,6 +40,7 @@ talkButton.addEventListener('click', () => {
     if (!askForm.hidden) {
         questionInput.focus();
     }
+    updateFlying();
 });
 
 askForm.addEventListener('submit', async(event) => {
@@ -31,6 +50,8 @@ askForm.addEventListener('submit', async(event) => {
     if(question === '') return;
 
     questionInput.value = '';
+    busy = true;
+    updateFlying();
     setSprite('thinking');
     say('...');
 
@@ -38,7 +59,11 @@ askForm.addEventListener('submit', async(event) => {
 
     setSprite('talking');
     say(result.answer ?? result.error);
-    setTimeout(() => setSprite('idle'), 3000);
+    setTimeout(() => {
+        setSprite('idle');
+        busy = false;
+        updateFlying();
+    }, 3000);
 });
 
 function blink() {
@@ -56,6 +81,7 @@ settingsButton.addEventListener('click', () => {
     if (!settingsForm.hidden) {
         keyInput.focus();
     }
+    updateFlying();
 });
 
 settingsForm.addEventListener('submit', async (event) => {
@@ -77,6 +103,7 @@ settingsForm.addEventListener('submit', async (event) => {
 
     keyInput.value = '';
     settingsForm.hidden = true;
+    updateFlying();
     say('Key accepted. My mind is online. Ask me anything.');
 });
 
@@ -85,6 +112,7 @@ async function checkForKey() {
     if (!hasKey) {
         say('I need an OpenRouter key to think. Get a free one at openrouter.ai/keys and paste it below.');
         settingsForm.hidden = false;
+        updateFlying();
     }
 }
 checkForKey();

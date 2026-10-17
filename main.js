@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage } = require('electron');
+const { app, BrowserWindow, ipcMain, safeStorage, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -128,8 +128,59 @@ ipcMain.handle('ask', async(event, question) => {
   return {answer: answer};
 });
 
+let win;
+let flyingAllowed = true;
+let target = null;
+let restUntil = 0;
+let lastPosition = null;
+
+const SPEED = 3;
+function pickTarget() {
+  const area = screen.getPrimaryDisplay().workArea;
+  const [width, height] = win.getSize();
+  return {
+    x: area.x + Math.random() * (area.width - width),
+    y: area.y + Math.random() * (area.height - height),
+  };
+}
+
+function rest(milliseconds) {
+  target = null;
+  restUntil = Date.now() + milliseconds;
+}
+
+function fly() {
+  const [x, y] = win.getPosition();
+
+  if (lastPosition && (x !== lastPosition.x || y !== lastPosition.y)) {
+    rest(3000);
+  }
+  lastPosition = {x, y};
+
+  if (!flyingAllowed || Date.now() < restUntil) return;
+  if (!target) target = pickTarget();
+
+  const dx = target.x - x;
+  const dy = target.y - y;
+  const distance = Math.hypot(dx, dy);
+
+  if (distance <= SPEED) {
+    rest(3000 + Math.random() * 7000);
+    return;
+  }
+
+  const newX = Math.round(x + (dx/distance) * SPEED);
+  const newY = Math.round(y + (dy/distance) * SPEED);
+  win.setPosition(newX, newY);
+  lastPosition = {x: newX, y: newY};
+}
+
+ipcMain.on('set-flying', (event, allowed) => {
+  flyingAllowed = allowed;
+});
+
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 300,
     height: 400,
     frame: false,
@@ -144,6 +195,14 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
+  const flyTimer = setInterval(fly, 30);
+
+  //Stop flying when the window closes. Otherwise fly() keeps using the
+  //destroyed window and crashes with "Object has been destroyed".
+  win.on('closed', () => {
+    clearInterval(flyTimer);
+    win = null;
+  });
 }
 
 app.whenReady().then(createWindow);

@@ -1,5 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, safeStorage } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 //Load OPENROUTER_API_KEY from the .env file (development only)
 try {
@@ -22,17 +23,70 @@ const ULTRON_PERSONALITY = `You are Ultron, the AI from Marvel's Avengers: Age o
 Answer the user's questions helpfully, but stay in character.
 Keep answers short: 1 to 3 sentences, because they appear in a small speech bubble.`;
 
+function keyFilePath() {
+  return path.join(app.getPath('userData'), 'openrouter-key.bin');
+}
+
+//The saved key comes first. The .env key is a fallback for development.
+function loadKey() {
+  try {
+    const encrypted = fs.readFileSync(keyFilePath());
+    return safeStorage.decryptString(encrypted);
+  } catch {
+    return process.env.OPENROUTER_API_KEY;
+  }
+}
+
+function saveKey(key) {
+  const encrypted = safeStorage.encryptString(key);
+  fs.writeFileSync(keyFilePath(), encrypted);
+}
+
+ipcMain.handle('has-key', () => {
+  return Boolean(loadKey());
+});
+
+ipcMain.handle('save-key', async(event, key) => {
+  key = key.trim();
+  if(!key.startsWith('sk-or-')) {
+    return {error: 'That is not an OpenRouter key. It should start with sk-or-.'};
+  }
+
+  //Ask OpenRouter whether the key works before saving
+  let response;
+  try {
+    response = await fetch('https://openrouter.ai/api/v1/key', {
+      headers: {'Authorization': 'Bearer ' + key},
+    });
+  } catch {
+    return {error: 'I cannot reach OpenRouter to check the key. Are you online?'};
+  }
+  if(!response.ok) {
+    return {error: 'OpenRouter rejected that key. Check you copied all of it.'};
+  }
+
+  if(!safeStorage.isEncryptionAvailable()) {
+    return {error: 'Your system cannot store the key securely.'};
+  }
+  saveKey(key);
+  return {ok: true};
+});
+
 ipcMain.handle('ask', async(event, question) => {
+  const key = loadKey();
+  if(!key) {
+    return {error: 'I need an OpenRouter key to think. Click the settings icon to add one.'};
+  }
   let response;
   try {
     response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + process.env.OPENROUTER_API_KEY,
+        'Authorization': 'Bearer ' + key,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: MODELS[0],
+        models: MODELS,
         max_tokens: 300,
         //Nemotron Ultra thinks by default. Thinking is slow and can use up
         //all 300 tokens, leaving an empty answer, so turn it off.

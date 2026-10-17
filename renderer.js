@@ -3,6 +3,9 @@ const talkButton = document.getElementById('talk');
 const askForm = document.getElementById('ask');
 const questionInput = document.getElementById('question');
 const ultron = document.getElementById('ultron');
+const settingsButton = document.getElementById('settings-button');
+const settingsForm = document.getElementById('settings');
+const keyInput = document.getElementById('key-input');
 
 function setSprite(name) {
     ultron.src = 'assets/' + name + '.png';
@@ -14,6 +17,7 @@ function say(text) {
 }
 
 talkButton.addEventListener('click', () => {
+    settingsForm.hidden = true;
     askForm.hidden = !askForm.hidden;
     if (!askForm.hidden) {
         questionInput.focus();
@@ -45,3 +49,42 @@ function blink() {
     setTimeout(blink, 2000 + Math.random() * 4000);
 }
 blink();
+
+settingsButton.addEventListener('click', () => {
+    askForm.hidden = true;
+    settingsForm.hidden = !settingsForm.hidden;
+    if (!settingsForm.hidden) {
+        keyInput.focus();
+    }
+});
+
+settingsForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const key = keyInput.value.trim();
+    if (key === '') return;
+
+    setSprite('thinking');
+    say('Checking your key...');
+
+    const result = await window.ultronBrain.saveKey(key);
+    setSprite('idle');
+
+    if (result.error) {
+        say(result.error);
+        return;
+    }
+
+    keyInput.value = '';
+    settingsForm.hidden = true;
+    say('Key accepted. My mind is online. Ask me anything.');
+});
+
+async function checkForKey() {
+    const hasKey = await window.ultronBrain.hasKey();
+    if (!hasKey) {
+        say('I need an OpenRouter key to think. Get a free one at openrouter.ai/keys and paste it below.');
+        settingsForm.hidden = false;
+    }
+}
+checkForKey();

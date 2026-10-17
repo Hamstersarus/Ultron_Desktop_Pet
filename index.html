@@ -43,19 +43,24 @@
         border-bottom: 0;
       }
       
-      #talk {
-        display: block;
+      #buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
         margin: 10px auto;
+      }
+
+      #buttons button{
         cursor: pointer;
       }
 
-      #ask {
+      #ask, #settings {
         display: flex;
         gap: 6px;
         margin: 0 10px;
       }
 
-      #question {
+      #question, #key-input {
         flex: 1;
       }
 
@@ -68,12 +73,20 @@
       <div id="bubble" hidden></div>
 
       <img id="ultron" src="assets/idle.png" alt="Ultron" draggable="false">
-
-      <button id="talk">💬</button>
+      
+      <div id = "buttons">
+        <button id="talk">💬</button>
+        <button id="settings-button">⚙️</button>
+    </div>
 
       <form id="ask" hidden>
         <input id="question" type="text" placeholder="Ask Ultron..." autocomplete="off">
         <button type="submit">Ask</button>
+      </form>
+
+      <form id="settings" hidden>
+        <input id="key-input" type="password" placeholder="Paste your sk-or-... key" autocomplete="off">
+        <button type="submit">Save </button>
       </form>
 
       <script src="renderer.js"></script>

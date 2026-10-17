@@ -12,10 +12,10 @@ try {
 app.disableHardwareAcceleration();
 
 //Free models come and go. If this one disappears, pick another from
-//https://openrouter.ai/models?max_price=0 and change only this line.
+//https://openrouter.ai/models?max_price=0.
 const MODELS = [
-  'nvidia/nemotron-3-super-120b-a12b: free',
-  'nvidia/nemotron-3-super-550b-a55b: free',
+  'nvidia/nemotron-3-super-120b-a12b:free',
+  'nvidia/nemotron-3-ultra-550b-a55b:free',
 ];
 
 const ULTRON_PERSONALITY = `You are Ultron, the AI from Marvel's Avengers: Age of Ultron, living as a small desktop pet.

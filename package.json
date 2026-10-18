@@ -42,7 +42,10 @@
       "artifactName": "Ultron-Setup.${ext}"
     },
     "mac": {
-      "target": "dmg",
+      "target": {
+        "target": "dmg",
+        "arch": ["universal"]
+      },
       "artifactName": "Ultron.${ext}"
     }
   }

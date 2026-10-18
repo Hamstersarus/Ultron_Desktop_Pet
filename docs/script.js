@@ -1,3 +1,7 @@
+//Download button: guess the visitor's operating system.
+const downloadButton = document.getElementById('download-button');
+const platform = (navigator.userAgentData?.platform || navigator.userAgent).toLowerCase();
+
 let os = null;
 if (/android|iphone|ipad/.test(platform)) {
     os = null;
@@ -14,6 +18,9 @@ if (os) {
 } else {
     downloadButton.textContent = 'Get it for your computer';
 }
+
+//Ultron blinks every few seconds, like in the app.
+const heroUltron = document.getElementById('hero-ultron');
 
 function blink() {
     heroUltron.src = 'media/blinking.png';

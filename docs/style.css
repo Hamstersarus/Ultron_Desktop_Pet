@@ -158,6 +158,15 @@ html {
 
 .bubble::before,
 .bubble::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-style: solid;
+    border-color: transparent;
+}
+
+.bubble::before {
     bottom: -12px;
     border-width: 12px 10px 0;
     border-top-color: var(--ultron-red);
@@ -169,7 +178,7 @@ html {
     border-top-color: var(--steel-dark);
 }
 
-@ketframes hover-bob {
+@keyframes hover-bob {
     0%, 100% {
         transform: translateY(0);
     }

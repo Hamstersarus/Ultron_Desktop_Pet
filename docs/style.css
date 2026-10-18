@@ -187,6 +187,74 @@ html {
     }
 }
 
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.feature {
+    background: var(--steel);
+    border: 2px solid var(--steel-light);
+    border-radius: 4px;
+    padding: 12px;
+}
+
+.feature:hover {
+    border-color: var(--ultron-red);
+    box-shadow: 0 0 10px var(--ultron-red-dim);
+}
+
+.feature-art {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--steel-dark);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.sprite {
+    width: 90px;
+    height: 90px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 4px rgba(255, 42, 42, 0.5));
+    animation: hover-bob 2.4s ease-in-out infinite;
+}
+
+.fly-path {
+    justify-content: flex-start;
+}
+
+.sprite.flying {
+    animation: fly-across 6s ease-in-out infinite alternate;
+}
+
+@keyframes fly-across {
+    from {
+        transform: translate(0, 10px);
+    }
+    50% {
+        transform: translate(60px, -15px);
+    }
+    to {
+        transform: translate(170px, 5px);
+    }
+}
+
+.feature h3 {
+    color: var(--ultron-red);
+    font-size: 30px;
+    font-weight: normal;
+    margin: 10px 0 4px;
+}
+
+.feature p {
+    margin: 0;
+    color: var(--steel-light);
+}
+
 @media (max-width: 600px) {
     .nav {
         flex-direction: column;

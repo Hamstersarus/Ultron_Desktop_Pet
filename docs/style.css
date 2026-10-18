@@ -10,6 +10,14 @@
     --ultron-red: #ff2a2a;
     --ultron-red-dim: #7a0f0f;
     --text: #e6e6e6;
+
+    /* One spacing scale for the whole page. Every gap, margin and padding uses these. */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 40px;
+    --space-6: 64px;
 }
 
 * {
@@ -18,6 +26,7 @@
 
 html {
     scroll-behavior: smooth;
+    scrollbar-color: var(--ultron-red-dim) var(--steel-dark);
 }
 
 body {
@@ -29,9 +38,17 @@ body {
     line-height: 1.3;
 }
 
+/* Browsers give headings, paragraphs and lists their own uneven margins.
+   Remove them, and space things explicitly with the scale above. */
+h1, h2, h3, p, ol {
+    margin: 0;
+}
+
 a {
     color: var(--ultron-red);
 }
+
+/* ---------- Navigation ---------- */
 
 .nav {
     position: sticky;
@@ -39,7 +56,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 24px;
+    padding: var(--space-3) var(--space-4);
     background: var(--steel);
     border-bottom: 2px solid var(--ultron-red-dim);
     z-index: 10;
@@ -52,9 +69,13 @@ a {
     text-shadow: 0 0 8px var(--ultron-red-dim);
 }
 
+.nav nav {
+    display: flex;
+    gap: var(--space-4);
+}
+
 .nav nav a {
     color: var(--text);
-    margin-left: 20px;
     text-decoration: none;
 }
 
@@ -62,10 +83,12 @@ a {
     color: var(--ultron-red);
 }
 
+/* ---------- Sections and headings ---------- */
+
 section {
     max-width: 900px;
     margin: 0 auto;
-    padding: 60px 24px;
+    padding: var(--space-6) var(--space-4);
 }
 
 h1, h2 {
@@ -76,45 +99,35 @@ h1, h2 {
 
 h1 {
     font-size: 64px;
-    margin: 0;
+    line-height: 1;
 }
 
 h2 {
     font-size: 44px;
     border-bottom: 2px solid var(--steel);
-    padding-bottom: 8px;
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-5);
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
-    color: var(--steel-light);
-    border-top: 2px solid var(--steel);
+h3 {
+    color: var(--ultron-red);
+    font-size: 30px;
+    font-weight: normal;
 }
 
-html {
-    scrollbar-color: var(--ultron-red-dim) var(--steel-dark);
-}
-
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    min-height: 70vh;
-}
-
-.pitch {
-    font-size: 29px;
+.small {
+    font-size: 18px;
     color: var(--steel-light);
 }
+
+/* ---------- Buttons ---------- */
 
 .button {
     display: inline-block;
     background: var(--ultron-red);
     color: var(--steel-dark);
     border: 2px solid var(--ultron-red);
-    padding: 8px 24px;
+    padding: var(--space-2) var(--space-4);
     font-size: 30px;
     text-decoration: none;
     box-shadow: 0 0 14px var(--ultron-red-dim), inset -3px -3px 0 rgba(0, 0, 0, 0.3);
@@ -125,30 +138,48 @@ html {
     color: var(--ultron-red);
 }
 
-.small {
-    font-size: 18px;
+/* ---------- Hero ---------- */
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: 70vh;
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+.pitch {
+    font-size: 28px;
     color: var(--steel-light);
 }
 
 .hero-pet {
     flex-shrink: 0;
-    text-align: center;
 }
 
 #hero-ultron {
+    display: block;
     width: 210px;
     height: 210px;
+    margin: 0 auto;
     image-rendering: pixelated;
     filter: drop-shadow(0 0 6px rgba(255, 42, 42, 0.5));
-    animation: hover-bob 2.4s ease-in-out infinite ;
+    animation: hover-bob 2.4s ease-in-out infinite;
 }
 
 .bubble {
     position: relative;
     width: 260px;
     min-height: 70px;
-    margin: 0 auto 20px;
-    padding: 8px 12px;
+    margin: 0 auto var(--space-4);
+    padding: var(--space-2) var(--space-3);
     background: var(--steel-dark);
     border: 2px solid var(--ultron-red);
     border-radius: 4px;
@@ -187,32 +218,41 @@ html {
     }
 }
 
+/* ---------- Features ----------
+   Each feature is one framed stage with plain text under it.
+   No card around the stage, so there is no box inside a box. */
+
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+    gap: var(--space-5) var(--space-4);
 }
 
 .feature {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.feature-art {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-2);
     background: var(--steel);
     border: 2px solid var(--steel-light);
     border-radius: 4px;
-    padding: 12px;
+    overflow: hidden;
 }
 
-.feature:hover {
+.feature:hover .feature-art {
     border-color: var(--ultron-red);
     box-shadow: 0 0 10px var(--ultron-red-dim);
 }
 
-.feature-art {
-    height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--steel-dark);
-    border-radius: 2px;
-    overflow: hidden;
+.feature p {
+    color: var(--steel-light);
 }
 
 .sprite {
@@ -225,6 +265,7 @@ html {
 
 .fly-path {
     justify-content: flex-start;
+    padding-left: var(--space-3);
 }
 
 .sprite.flying {
@@ -236,36 +277,31 @@ html {
         transform: translate(0, 10px);
     }
     50% {
-        transform: translate(60px, -15px);
+        transform: translate(80px, -15px);
     }
     to {
-        transform: translate(170px, 5px);
+        transform: translate(200px, 5px);
     }
 }
 
-.feature h3 {
-    color: var(--ultron-red);
-    font-size: 30px;
-    font-weight: normal;
-    margin: 10px 0 4px;
-}
-
-.feature p {
-    margin: 0;
-    color: var(--steel-light);
-}
+/* ---------- Download ---------- */
 
 .downloads {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
 }
 
 .download-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
     background: var(--steel);
     border: 2px solid var(--steel-light);
     border-radius: 4px;
-    padding: 16px;
     text-align: center;
 }
 
@@ -276,9 +312,8 @@ html {
 }
 
 .download-card h3 {
+    color: var(--text);
     font-size: 32px;
-    font-weight: normal;
-    margin: 0 0 12px;
 }
 
 .download-card .button {
@@ -288,19 +323,27 @@ html {
 .note {
     font-size: 18px;
     color: var(--steel-light);
-    margin-bottom: 0;
 }
+
+/* ---------- Guide ---------- */
 
 .steps {
     list-style: none;
     counter-reset: step;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
 }
 
 .steps li {
     counter-increment: step;
     position: relative;
-    padding: 0 0 20px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding-left: var(--space-6);
 }
 
 .steps li::before {
@@ -319,27 +362,25 @@ html {
 }
 
 .steps h3 {
-    font-size: 30px;
-    font-weight: normal;
-    color: var(--ultron-red);
-    margin: 0 0 4px;
-}
-
-.steps p {
-    margin: 0;
+    line-height: 44px;
 }
 
 code {
     font-family: inherit;
     background: var(--steel);
-    padding: 0 6px;
+    padding: 0 var(--space-2);
 }
+
+/* ---------- FAQ ---------- */
 
 details {
     background: var(--steel);
     border-left: 4px solid var(--ultron-red-dim);
-    margin-bottom: 10px;
-    padding: 10px 16px;
+    padding: var(--space-3) var(--space-4);
+}
+
+details + details {
+    margin-top: var(--space-3);
 }
 
 details[open] {
@@ -356,27 +397,49 @@ summary:hover {
 }
 
 details p {
-    margin: 8px 0 0;
+    margin-top: var(--space-2);
     color: var(--steel-light);
 }
+
+/* ---------- Footer ---------- */
+
+footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-4);
+    text-align: center;
+    color: var(--steel-light);
+    border-top: 2px solid var(--steel);
+}
+
+/* ---------- Phones ---------- */
 
 @media (max-width: 600px) {
     .nav {
         flex-direction: column;
-        gap: 8px;
+        gap: var(--space-2);
     }
 
-    .nav nav a {
-        margin: 0 8px;
+    .nav nav {
+        gap: var(--space-3);
+    }
+
+    section {
+        padding: var(--space-5) var(--space-3);
     }
 
     h1 {
         font-size: 44px;
     }
-    
+
     .hero {
         flex-direction: column-reverse;
         text-align: center;
         min-height: auto;
+    }
+
+    .hero-text {
+        align-items: center;
     }
 }

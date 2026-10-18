@@ -92,6 +92,92 @@ footer {
     border-top: 2px solid var(--steel);
 }
 
+html {
+    scrollbar-color: var(--ultron-red-dim) var(--steel-dark);
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    min-height: 70vh;
+}
+
+.pitch {
+    font-size: 29px;
+    color: var(--steel-light);
+}
+
+.button {
+    display: inline-block;
+    background: var(--ultron-red);
+    color: var(--steel-dark);
+    border: 2px solid var(--ultron-red);
+    padding: 8px 24px;
+    font-size: 30px;
+    text-decoration: none;
+    box-shadow: 0 0 14px var(--ultron-red-dim), inset -3px -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.button:hover {
+    background: transparent;
+    color: var(--ultron-red);
+}
+
+.small {
+    font-size: 18px;
+    color: var(--steel-light);
+}
+
+.hero-pet {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+#hero-ultron {
+    width: 210px;
+    height: 210px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 6px rgba(255, 42, 42, 0.5));
+    animation: hover-bob 2.4s ease-in-out infinite ;
+}
+
+.bubble {
+    position: relative;
+    width: 260px;
+    min-height: 70px;
+    margin: 0 auto 20px;
+    padding: 8px 12px;
+    background: var(--steel-dark);
+    border: 2px solid var(--ultron-red);
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--ultron-red-dim);
+    text-align: left;
+}
+
+.bubble::before,
+.bubble::after {
+    bottom: -12px;
+    border-width: 12px 10px 0;
+    border-top-color: var(--ultron-red);
+}
+
+.bubble::after {
+    bottom: -8px;
+    border-width: 9px 7.5px 0;
+    border-top-color: var(--steel-dark);
+}
+
+@ketframes hover-bob {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
 @media (max-width: 600px) {
     .nav {
         flex-direction: column;
@@ -104,5 +190,11 @@ footer {
 
     h1 {
         font-size: 44px;
+    }
+    
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        min-height: auto;
     }
 }

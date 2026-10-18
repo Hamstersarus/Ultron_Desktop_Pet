@@ -34,7 +34,7 @@ function blink() {
 setTimeout(blink, 2000);
 
 const heroBubbleText = document.getElementById('hero-bubble-text');
-const greeting = 'TODO: what Ultron says to visitors';
+const greeting = 'I am Ultron. Download me, and I will watch over your desktop.';
 let shown = 0;
 
 const typing = setInterval(() => {

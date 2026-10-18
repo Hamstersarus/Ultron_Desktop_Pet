@@ -15,6 +15,8 @@ if (/android|iphone|ipad/.test(platform)) {
 
 if (os) {
     downloadButton.textContent = 'Download for ' + os;
+    downloadButton.href = '#download-' + os.toLowerCase();
+    document.getElementById('download-' + os.toLowerCase()).classList.add('yours');
 } else {
     downloadButton.textContent = 'Get it for your computer';
 }

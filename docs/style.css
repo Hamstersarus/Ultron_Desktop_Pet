@@ -255,6 +255,111 @@ html {
     color: var(--steel-light);
 }
 
+.downloads {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.download-card {
+    background: var(--steel);
+    border: 2px solid var(--steel-light);
+    border-radius: 4px;
+    padding: 16px;
+    text-align: center;
+}
+
+.download-card:target,
+.download-card.yours {
+    border-color: var(--ultron-red);
+    box-shadow: 0 0 14px var(--ultron-red-dim);
+}
+
+.download-card h3 {
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0 0 12px;
+}
+
+.download-card .button {
+    font-size: 24px;
+}
+
+.note {
+    font-size: 18px;
+    color: var(--steel-light);
+    margin-bottom: 0;
+}
+
+.steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+}
+
+.steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 20px 64px;
+}
+
+.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 30px;
+    color: var(--steel-dark);
+    background: var(--ultron-red);
+    box-shadow: 0 0 10px var(--ultron-red-dim);
+}
+
+.steps h3 {
+    font-size: 30px;
+    font-weight: normal;
+    color: var(--ultron-red);
+    margin: 0 0 4px;
+}
+
+.steps p {
+    margin: 0;
+}
+
+code {
+    font-family: inherit;
+    background: var(--steel);
+    padding: 0 6px;
+}
+
+details {
+    background: var(--steel);
+    border-left: 4px solid var(--ultron-red-dim);
+    margin-bottom: 10px;
+    padding: 10px 16px;
+}
+
+details[open] {
+    border-left-color: var(--ultron-red);
+}
+
+summary {
+    cursor: pointer;
+    font-size: 26px;
+}
+
+summary:hover {
+    color: var(--ultron-red);
+}
+
+details p {
+    margin: 8px 0 0;
+    color: var(--steel-light);
+}
+
 @media (max-width: 600px) {
     .nav {
         flex-direction: column;

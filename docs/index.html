@@ -70,22 +70,93 @@
         
          <section id="download">
             <h2>Download</h2>
-            <p>TODO</p>
+            <div class="downloads">
+                <div class="download-card" id="download-windows">
+                    <h3>Windows</h3>
+                    <a class="button" href="https://github.com/Hamstersarus/Ultron_Desktop_Pet/releases/latest/download/Ultron-Setup.exe">Download .exe</a>
+                    <p class="note">Windows may say "Windows protected your PC". Click <b>More info</b> → <b>Run anyway</b>.</p>
+                </div>
+                <div class="download-card" id="download-mac">
+                    <h3>Mac</h3>
+                    <a class="button" href="https://github.com/Hamstersarus/Ultron_Desktop_Pet/releases/latest/download/Ultron.dmg">Download .dmg</a>
+                    <p class="note">If Mac says the developer can't be verified: right-click the app → <b>Open</b> → <b>Open</b>.</p>
+                </div>
+                <div class="download-card" id="download-linux">
+                    <h3>Linux</h3>
+                    <a class="button" href="https://github.com/Hamstersarus/Ultron_Desktop_Pet/releases/latest/download/Ultron.deb">Download .deb</a>
+                    <p class="note">For Ubuntu and Debian. Other distros: <a href="https://github.com/Hamstersarus/Ultron_Desktop_Pet/releases/latest/download/Ultron.AppImage">AppImage</a></p>
+                </div>
+            </div>
+            <p class="small">All versions and source code: <a href="https://github.com/Hamstersarus/Ultron_Desktop_Pet/releases">GitHub Releases</a></p>
         </section>
 
-         <section id="guide">
+        <section id="guide">
             <h2>Getting Started</h2>
-            <p>TODO</p>
+            <ol class="steps">
+                <li>
+                    <h3>Download and install</h3>
+                    <p>Pick your system in the <a href="#download">Download</a> section and open the file.</p>
+                </li>
+                <li>
+                    <h3>Get a free OpenRouter key</h3>
+                    <p>Ultron's brain runs on free AI models from OpenRouter. Sign in at
+                        <a href="https://openrouter.ai">openrouter.ai</a>, open <b>Keys</b> → <b>Create Key</b>
+                        and copy the key (it starts with <code>sk-or-</code>). In
+                        <a href="https://openrouter.ai/settings/privacy">Privacy settings</a>, allow free models.</p>
+                </li>
+                <li>
+                    <h3>Give Ultron the key</h3>
+                    <p>On first launch he asks for it. Paste it into the box and click <b>Save</b>.
+                        He checks it and remembers it from then on.</p>
+                </li>
+                <li>
+                    <h3>Ask him something</h3>
+                    <p>Click 💬, type your question and press Enter. His eyes turn yellow while he thinks,
+                        then he answers in his speech bubble. Click the bubble to skip the typing.</p>
+                </li>
+                <li>
+                    <h3>Let him roam</h3>
+                    <p>He flies around on his own and rests between trips. Drag him wherever you want.
+                        Right-click him to turn flying off or to quit.</p>
+                </li>
+            </ol>
+
         </section>
 
-         <section id="faq">
+        <section id="faq">
             <h2>FAQ</h2>
-            <p>TODO</p>
+            <details>
+                <summary>Is it really free?</summary>
+                <p>Yes. The app is free and uses free AI models through your own OpenRouter key.</p>
+            </details>
+            <details>
+                <summary>He says "My mind is overloaded"</summary>
+                <p>The free AI servers are shared by many people and are sometimes busy. Wait a moment and ask again.</p>
+            </details>
+            <details>
+                <summary>He says "My access key is invalid"</summary>
+                <p>Click ⚙️ and paste your key again. Make sure you copied all of it, starting with <code>sk-or-</code>.</p>
+            </details>
+            <details>
+                <summary>Is my key safe?</summary>
+                <p>Your key is stored encrypted on your own computer, using your system's password store. It is only ever sent to OpenRouter.</p>
+            </details>
+            <details>
+                <summary>Are my questions private?</summary>
+                <p>Free AI models may log the questions they receive. Don't ask Ultron anything private.</p>
+            </details>
+            <details>
+                <summary>Does he work offline?</summary>
+                <p>He still flies, blinks and hovers, but he needs the internet to answer questions.</p>
+            </details>
         </section>
     </main>
 
     <footer>
-        <p>TODO: footer</p>
+        <p>Made by Hamstersarus for <a href="https://playground.hackclub.com">Hack Club Playground</a> ·
+            <a href="https://github.com/Hamstersarus/Ultron_Desktop_Pet">Source on GitHub</a></p>
+        <p class="small">Ultron is a Marvel character. This is a fan project, not affiliated with Marvel.
+            Font: VT323 by Peter Hull (SIL Open Font License).</p>
     </footer>
 
     <script src="script.js"></script>

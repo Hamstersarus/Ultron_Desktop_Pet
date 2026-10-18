@@ -2,6 +2,16 @@ const { app, BrowserWindow, ipcMain, safeStorage, screen, Menu } = require('elec
 const path = require('path');
 const fs = require('fs');
 
+//On Linux with Wayland, apps can't move their own windows or stay on top.
+//If we weren't started with the X11 flag, restart ourselves with it.
+if (process.platform === 'linux' &&
+    process.env.XDG_SESSION_TYPE === 'wayland' &&
+    !process.argv.includes('--ozone-platform=x11')) {
+  app.relaunch({args: process.argv.slice(1).concat(['--ozone-platform=x11'])});
+  app.exit(0);
+}
+
+
 //Load OPENROUTER_API_KEY from the .env file (development only)
 try {
   process.loadEnvFile();

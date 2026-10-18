@@ -3,17 +3,47 @@
   "version": "1.0.0",
   "description": "An Ultron desktop pet you can talk to",
   "main": "main.js",
-  "scripts": {
-    "start": "electron . --ozone-platform=x11"
+  "homepage": "https://hamstersarus.github.io/Ultron_Desktop_Pet/",
+  "author": {
+    "name": "Hamstersarus",
+    "email": "Hamstersarus@users.noreply.github.com"
   },
-  "keywords": [],
-  "author": "Ayla",
   "license": "ISC",
   "type": "commonjs",
+  "scripts": {
+    "start": "electron . --ozone-platform=x11",
+    "dist": "electron-builder"
+  },
   "devDependencies": {
-    "electron": "^44.7.0"
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3"
   },
   "allowScripts": {
     "electron": true
+  },
+  "build": {
+    "appId": "io.github.hamstersarus.ultronpet",
+    "productName": "Ultron",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "index.html",
+      "assets/**/*"
+    ],
+    "icon": "assets/icon.png",
+    "linux": {
+      "target": ["deb", "AppImage"],
+      "category": "Utility",
+      "artifactName": "Ultron.${ext}"
+    },
+    "win": {
+      "target": "nsis",
+      "artifactName": "Ultron-Setup.${ext}"
+    },
+    "mac": {
+      "target": "dmg",
+      "artifactName": "Ultron.${ext}"
+    }
   }
 }

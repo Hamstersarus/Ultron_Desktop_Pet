@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'">
 
     <title>Ultron</title>
     <style>
@@ -37,6 +37,7 @@
       -webkit-app-region: drag;
       filter: drop-shadow(0 0 4px rgba(255, 42, 42, 0.5));
       animation: hover-bob 2.4s ease-in-out infinite;
+      object-fit: contain;
       }
 
       #bubble {

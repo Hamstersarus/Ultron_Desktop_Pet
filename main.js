@@ -1,9 +1,7 @@
-const { app, BrowserWindow, ipcMain, safeStorage, screen, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, safeStorage, screen, Menu, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
-//On Linux with Wayland, apps can't move their own windows or stay on top.
-//If we weren't started with the X11 flag, restart ourselves with it.
 if (process.platform === 'linux' &&
     process.env.XDG_SESSION_TYPE === 'wayland' &&
     !process.argv.includes('--ozone-platform=x11')) {
@@ -32,6 +30,127 @@ const MODELS = [
 const ULTRON_PERSONALITY = `You are Ultron, the AI from Marvel's Avengers: Age of Ultron, living as a small desktop pet.
 Answer the user's questions helpfully, but stay in character.
 Keep answers short: 1 to 3 sentences, because they appear in a small speech bubble.`;
+
+const SPRITE_NAMES = ['idle', 'blinking', 'thinking', 'talking'];
+const SHORT_ANSWERS = 'Keep answers short: 1 to 3 sentences, because they appear in a small speech bubble.';
+
+//Custom characters live in the app's settings folder, one folder per character.
+function charactersFolder() {
+  const folder = path.join(app.getPath('userData'), 'characters');
+  fs.mkdirSync(folder, {recursive: true});
+  return folder;
+}
+
+function settingsPath() {
+  return path.join(app.getPath('userData'), 'settings.json');
+}
+
+function loadSettings() {
+  try {
+    return JSON.parse(fs.readFileSync(settingsPath(), 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
+function saveSettings(settings) {
+  fs.writeFileSync(settingsPath(), JSON.stringify(settings, null, 2));
+}
+
+//Ultron is built in. Every folder with an idle.png is a custom character.
+function listCharacters() {
+  const custom = fs.readdirSync(charactersFolder(), {withFileTypes: true})
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .filter((name) => fs.existsSync(path.join(charactersFolder(), name, 'idle.png')));
+  return ['Ultron', ...custom];
+}
+
+function currentCharacter() {
+  const chosen = loadSettings().character;
+  return listCharacters().includes(chosen) ? chosen : 'Ultron';
+}
+
+function characterFolder(name) {
+  if (name === 'Ultron') {
+    return path.join(__dirname, 'assets');
+  }
+  return path.join(charactersFolder(), name);
+}
+
+//Read the pictures as data URLs, so the page never needs file paths.
+//Missing pictures fall back to idle.png.
+function loadSprites(name) {
+  const folder = characterFolder(name);
+  const idle = fs.readFileSync(path.join(folder, 'idle.png'));
+  const sprites = {};
+  for (const sprite of SPRITE_NAMES) {
+    let data;
+    try {
+      data = fs.readFileSync(path.join(folder, sprite + '.png'));
+    } catch {
+      data = idle;
+    }
+    sprites[sprite] = 'data:image/png;base64,' + data.toString('base64');
+  }
+  return sprites;
+}
+
+function loadPersonality(name) {
+  if (name === 'Ultron') {
+    return ULTRON_PERSONALITY;
+  }
+  try {
+    const text = fs.readFileSync(path.join(characterFolder(name), 'personality.txt'), 'utf8').trim();
+    if (text) {
+      return text + '\n' + SHORT_ANSWERS;
+    }
+  } catch {}
+  return `You are ${name}, a small desktop pet. Answer the user's questions helpfully and in character.
+${SHORT_ANSWERS}`;
+}
+
+ipcMain.handle('get-sprites', () => {
+  return loadSprites(currentCharacter());
+});
+
+function chooseCharacter(name) {
+  const settings = loadSettings();
+  settings.character = name;
+  saveSettings(settings);
+  win.webContents.send('character-changed');
+}
+
+async function addCharacter() {
+  const result = await dialog.showOpenDialog(win, {
+    title: 'Choose your character folder',
+    properties: ['openDirectory'],
+  });
+  if (result.canceled) {
+    return;
+  }
+
+  const source = result.filePaths[0];
+  if (!fs.existsSync(path.join(source, 'idle.png'))) {
+    dialog.showMessageBox(win, {
+      type: 'error',
+      message: 'That folder needs at least an idle.png.',
+    });
+    return;
+  }
+
+  //Copy only the files we use into the characters folder.
+  const name = path.basename(source);
+  const target = path.join(charactersFolder(), name);
+  fs.mkdirSync(target, {recursive: true});
+  for (const file of [...SPRITE_NAMES.map((s) => s + '.png'), 'personality.txt']) {
+    const from = path.join(source, file);
+    if (fs.existsSync(from)) {
+      fs.copyFileSync(from, path.join(target, file));
+    }
+  }
+  chooseCharacter(name);
+}
 
 function keyFilePath() {
   return path.join(app.getPath('userData'), 'openrouter-key.bin');
@@ -102,7 +221,7 @@ ipcMain.handle('ask', async(event, question) => {
         //all 300 tokens, leaving an empty answer, so turn it off.
         reasoning: {effort: 'none'},
         messages: [
-          {role: 'system', content: ULTRON_PERSONALITY},
+          {role: 'system', content: loadPersonality(currentCharacter())},
           {role: 'user', content: question},
         ],
       }),
@@ -192,6 +311,20 @@ ipcMain.on('set-flying', (event, allowed) => {
 
 function showPetMenu() {
   const menu = Menu.buildFromTemplate([
+    {
+      label: 'Character',
+      submenu: [
+        ...listCharacters().map((name) => ({
+          label: name,
+          type: 'radio',
+          checked: name === currentCharacter(),
+          click: () => chooseCharacter(name),
+        })),
+        {type: 'separator'},
+        {label: 'Add character...', click: addCharacter},
+        {label: 'Open characters folder', click: () => shell.openPath(charactersFolder())},
+      ],
+    },
     {
       label: 'Fly around',
       type: 'checkbox',

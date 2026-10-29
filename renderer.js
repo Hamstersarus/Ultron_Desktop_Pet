@@ -27,9 +27,22 @@ buttonsRow.addEventListener('mouseleave', () => {
     updateFlying();
 });
 
+let sprites = {};
+let currentSprite = 'idle';
+
 function setSprite(name) {
-    ultron.src = 'assets/' + name + '.png';
+    currentSprite = name;
+    if (sprites[name]) {
+        ultron.src = sprites[name];
+    }
 }
+
+async function loadCharacter() {
+    sprites = await window.ultronBrain.getSprites();
+    setSprite(currentSprite);
+}
+loadCharacter();
+window.ultronBrain.onCharacterChanged(loadCharacter);
 
 let typingTimer = null;
 let finishTyping = null;
@@ -106,7 +119,7 @@ askForm.addEventListener('submit', async(event) => {
 });
 
 function blink() {
-    if (ultron.src.endsWith('idle.png') && !busy) {
+    if (currentSprite === 'idle' && !busy) {
         setSprite('blinking');
         setTimeout(() => setSprite('idle'), 150);
     }

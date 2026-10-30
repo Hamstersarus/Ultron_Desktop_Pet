@@ -365,6 +365,28 @@ h3 {
     line-height: 44px;
 }
 
+/* ---------- Make your own character ---------- */
+
+.intro {
+    color: var(--steel-light);
+    margin-bottom: var(--space-5);
+}
+
+.tree {
+    margin: var(--space-2) 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--steel);
+    border-left: 4px solid var(--ultron-red-dim);
+    overflow-x: auto;
+    font-family: inherit;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.tree code {
+    padding: 0;
+}
+
 code {
     font-family: inherit;
     background: var(--steel);

@@ -15,6 +15,7 @@
             <a href="#features">Features</a>
             <a href="#download">Download</a>
             <a href="#guide">Guide</a>
+            <a href="#characters">Characters</a>
             <a href="#faq">FAQ</a>
         </nav>
     </header>
@@ -119,7 +120,44 @@
                         Right-click him to turn flying off or to quit.</p>
                 </li>
             </ol>
+        </section>
 
+        <section id="characters">
+            <h2>Make your own character</h2>
+            <p class="intro">Ultron isn't the only one who can live on your desktop. Draw your own character and the pet
+                will use your pictures, your character's name and its own personality.</p>
+            <ol class="steps">
+                <li>
+                    <h3>Draw your sprites</h3>
+                    <p>Make a folder named after your character. The folder's name becomes the character's name.
+                        Put your pictures inside as PNG files with these names. Only <code>idle.png</code> is required;
+                        any picture you leave out uses <code>idle.png</code> instead.</p>
+                    <pre class="tree"><code>Blobby/
+├── idle.png         required: standing still
+├── blinking.png     optional: eyes closed
+├── thinking.png     optional: waiting for an answer
+├── talking.png      optional: answering
+└── personality.txt  optional: how your character talks</code></pre>
+                    <p class="small">Square pictures with a transparent background look best, for example 30×30 pixel art.</p>
+                </li>
+                <li>
+                    <h3>Give it a personality</h3>
+                    <p>Optional. Write a few sentences in <code>personality.txt</code> about who your character is, for example:
+                        <i>"You are Blobby, a cheerful green slime who loves snacks and bad puns."</i>
+                        Without it, your character answers as a friendly desktop pet.</p>
+                </li>
+                <li>
+                    <h3>Add it to the pet</h3>
+                    <p>Right-click the pet → <b>Character</b> → <b>Add character...</b> and choose your folder.
+                        The pet switches to your character right away.</p>
+                </li>
+                <li>
+                    <h3>Switch any time</h3>
+                    <p>Right-click → <b>Character</b> lists Ultron and all your characters, and your choice is remembered.
+                        The pet keeps its own copy of your files, so to change or remove a character, use
+                        Right-click → <b>Character</b> → <b>Open characters folder</b>, or add your folder again.</p>
+                </li>
+            </ol>
         </section>
 
         <section id="faq">

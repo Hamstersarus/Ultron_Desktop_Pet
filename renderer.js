@@ -40,6 +40,7 @@ function setSprite(name) {
 async function loadCharacter() {
     sprites = await window.ultronBrain.getSprites();
     setSprite(currentSprite);
+    questionInput.placeholder = 'Ask ' + (await window.ultronBrain.getCharacterName()) + '...';
 }
 loadCharacter();
 window.ultronBrain.onCharacterChanged(loadCharacter);

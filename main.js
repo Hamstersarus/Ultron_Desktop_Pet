@@ -114,6 +114,11 @@ ipcMain.handle('get-sprites', () => {
   return loadSprites(currentCharacter());
 });
 
+ipcMain.handle('get-character-name', () => {
+  return currentCharacter();
+});
+
+
 function chooseCharacter(name) {
   const settings = loadSettings();
   settings.character = name;

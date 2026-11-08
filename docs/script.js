@@ -1,6 +1,10 @@
 //Download button: guess the visitor's operating system.
 const downloadButton = document.getElementById('download-button');
-const platform = (navigator.userAgentData?.platform || navigator.userAgent).toLowerCase();
+let platform = navigator.userAgent;
+if(navigator.userAgentData) {
+    platform = navigator.userAgentData.platform;
+}
+platform = platform.toLowerCase();
 
 let os = null;
 if (/android|iphone|ipad/.test(platform)) {

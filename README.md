@@ -1,6 +1,5 @@
 # Ultron Desktop Pet
-
-A tiny pixel-art Ultron that flies around your desktop and answers your questions, in character.
+This is a desktop pet that floats around your screen. You can ask it questions that it will answer in character.
 
 Free · Windows, Mac and Linux · [All downloads](#download)
 
@@ -9,16 +8,16 @@ Free · Windows, Mac and Linux · [All downloads](#download)
 ## Features
 
 ### He flies around
-He wanders your screen on his own and rests between flights. Drag him anywhere, or tell him to stay put.
+He will fly around the screen, waiting to be asked a question. He can be dragged anywhere or asked to just stay put.
 
 ### Ask him anything
-Click 💬 and type a question. His eyes turn yellow while he thinks it over.
+Click 💬, ask him a question and watch his eyes turn yellow while he thinks.
 
 ### He answers in character
-Answers type out letter by letter in his speech bubble, with his mouth moving and his attitude intact.
+Every question he gets asked, he answers in character, with his mouth moving while he answers.
 
 ### He feels alive
-He blinks, hovers and glows. Right-click him to stop flying or to shut him down.
+He blinks, flies around, and glows. You can right click him to stop him from flying.
 
 ## Download
 
@@ -30,7 +29,8 @@ He blinks, hovers and glows. Right-click him to stop flying or to shut him down.
 
 All versions and source code: [GitHub Releases](https://github.com/Hamstersarus/Ultron_Desktop_Pet/releases)
 
-## Getting Started
+
+## How to use
 
 1. **Download and install**\
    Pick your system in the [Download](#download) section and open the file.
@@ -42,10 +42,10 @@ All versions and source code: [GitHub Releases](https://github.com/Hamstersarus/
    On first launch he asks for it. Paste it into the box and click **Save**. He checks it and remembers it from then on.
 
 4. **Ask him something**\
-   Click 💬, type your question and press Enter. His eyes turn yellow while he thinks, then he answers in his speech bubble. Click the bubble to skip the typing.
+   Click 💬, type your question and press Enter. His eyes turn yellow while he thinks and he answers in the speech bubble. Click the bubble to skip the typing.
 
 5. **Let him roam**\
-   He flies around on his own and rests between trips. Drag him wherever you want. Right-click him to turn flying off or to quit.
+   He flies around on his own and rests between trips. Drag him wherever you want. Right click him to turn flying off or to quit.
 
 ## Make your own character
 

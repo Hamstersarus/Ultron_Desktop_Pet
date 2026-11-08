@@ -68,7 +68,10 @@ function listCharacters() {
 
 function currentCharacter() {
   const chosen = loadSettings().character;
-  return listCharacters().includes(chosen) ? chosen : 'Ultron';
+  if(listCharacters().includes(chosen)) {
+    return chosen;
+  }
+  return 'Ultron';
 }
 
 function characterFolder(name) {
@@ -117,7 +120,6 @@ ipcMain.handle('get-sprites', () => {
 ipcMain.handle('get-character-name', () => {
   return currentCharacter();
 });
-
 
 function chooseCharacter(name) {
   const settings = loadSettings();
@@ -255,7 +257,10 @@ ipcMain.handle('ask', async(event, question) => {
     return{error: 'My mind is overloaded. Try again in a moment.'};
   }
 
-  const answer = data.choices?.[0]?.message?.content;
+  let answer;
+  if(data.choices && data.choices[0].message) {
+    answer = data.choices[0].message.content;
+  }
   if(!answer) {
     return {error: 'I have nothing to say.'};
   }

@@ -111,7 +111,11 @@ askForm.addEventListener('submit', async(event) => {
 
     const result = await window.ultronBrain.ask(question);
 
-    speak(result.answer ?? result.error, () => {
+    let textToSay = result.answer;
+    if(!textToSay) {
+        textToSay = result.error;
+    }
+    speak(textToSay, () => {
         setTimeout(() => {
             busy = false;
             updateFlying();
